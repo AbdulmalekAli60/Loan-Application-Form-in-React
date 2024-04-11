@@ -3,6 +3,8 @@ import Modal from "./Modal";
 import { useState } from "react";
 
 export default function LoanForm() {
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const [formInputs, setFormInputs] = useState({
     name: "",
     phoneNumber: "",
@@ -11,36 +13,23 @@ export default function LoanForm() {
     salary: "",
   });
 
-  // const [errorMessage, setErrorMessage] = useState("");
+  function handelFormSubmit(event) {
+    event.preventDefault();
+    setErrorMessage(null);
+    const phoneNumberRegex = /^[0-9\b]+$/;
 
-  // function handleSubmit(event) {
-  //   event.preventDefault();
-
-  //   const phoneNumberRegex = /^[0-9\b]+$/;
-
-  //   if (
-  //     formInputs.phoneNumber.length > 12 ||
-  //     formInputs.phoneNumber.length < 10 ||
-  //     !phoneNumberRegex.test(formInputs.phoneNumber)
-  //   ) {
-  //     alert("Phone Number should be between 10 and 12 digits");
-  //   } else if (formInputs.age < 18 || formInputs.age > 100) {
-  //     alert("Age should be between 18 and 100");
-  //   } else {
-  //     event.target.submit();
-  //   }
-  // }
-
-  function handelFormSubmit() {}
-
-  function handelPhoneNumberInput(event) {
-    // const re = /^[0-9\b]+$/;
-    // if (event.target.length  > 12 || event.target.length  < 10 || re.test(event.target.value)) {
-    //   alert("Phone Number should be between 10 and 12 Number");
-    // } else {
-    //   setFormInputs({ ...formInputs, phoneNumber: event.target.value });
-    // }
-    setFormInputs({ ...formInputs, phoneNumber: event.target.value });
+    const { age } = formInputs;
+    const { phoneNumber } = formInputs;
+    if (age < 18 || age > 100) {
+      setErrorMessage("The Age is not Allowd");
+    } else if (!phoneNumberRegex.test(age)) {
+      setErrorMessage("Age should consists of numbers");
+    } else if (phoneNumber.length < 10 || phoneNumber.length > 12) {
+      setErrorMessage("Phone Number Format is Incorrect");
+    } else if (!phoneNumberRegex.test(phoneNumber)) {
+      setErrorMessage("Phone Number should consisnts of numbers");
+    }
+    setShowModal(true);
   }
 
   function handelAgeInput(event) {
@@ -53,9 +42,17 @@ export default function LoanForm() {
     formInputs.age == null ||
     formInputs.salary === "";
 
-
+  function handleDivClick() {
+    if (showModal) {
+      setShowModal(false);
+    }
+  }
   return (
-    <div className="flex" style={{ flexDirection: "column" }}>
+    <div
+      onClick={handleDivClick}
+      className="flex"
+      style={{ flexDirection: "column" }}
+    >
       <form id="loan-form" className="flex" style={{ flexDirection: "column" }}>
         <h1>Requesting a Loan</h1>
         <hr />
@@ -72,7 +69,9 @@ export default function LoanForm() {
         <label>Phone Number:</label>
         <input
           value={formInputs.phoneNumber}
-          onChange={handelPhoneNumberInput}
+          onChange={(event) => {
+            setFormInputs({ ...formInputs, phoneNumber: event.target.value });
+          }}
           type="text"
         />
 
@@ -109,7 +108,7 @@ export default function LoanForm() {
           submit
         </button>
       </form>
-      {/* <Modal /> */}
+      <Modal isVisible={showModal} errorMessage={errorMessage} />
     </div>
   );
 }

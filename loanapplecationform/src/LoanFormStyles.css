@@ -16,7 +16,7 @@
 #modal {
   position: absolute;
   background: rgba(0, 0, 0, 0.55);
-  width: 100vw;
+  width: 98vw;
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -59,4 +59,3 @@ hr {
   background-color: gray !important;
   cursor: default !important;
 }
-

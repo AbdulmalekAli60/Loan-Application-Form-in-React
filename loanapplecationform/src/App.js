@@ -1,10 +1,10 @@
-import LoanForm from './LoanForm';
-import './App.css';
+import LoanForm from "./LoanForm";
+import "./App.css";
 
 function App() {
   return (
-    <div className="App" style={{marginTop:"30px"}}>
-    <LoanForm></LoanForm>
+    <div className="App" style={{ marginTop: "30px" }}>
+      <LoanForm></LoanForm>
     </div>
   );
 }
